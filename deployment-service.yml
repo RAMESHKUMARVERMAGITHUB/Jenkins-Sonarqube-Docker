@@ -2,33 +2,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: candycrush
+  name: website
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: candycrush
+      app: website
   template:
     metadata:
       labels:
-        app: candycrush
+        app: website
     spec:
       containers:
-      - name: candycrush
-        image: rameshkumarverma/candycrush:latest
+      - name: website
+        image: rameshkumarverma/website:latest
         ports:
-        - containerPort: 8085   # Use port 3000
+        - containerPort: 8085   # Use port 8085
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: candycrush-service
+  name: website-service
 spec:
   selector:
-    app: candycrush
+    app: website
   ports:
   - protocol: TCP
     port: 80                 # Expose port 80
     targetPort: 8085
-  type: LoadBalancer
+  type: NodePort
