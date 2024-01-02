@@ -65,22 +65,22 @@ pipeline{
                 sh "trivy image rameshkumarverma/website:latest > trivyimage.txt"
             }
         }
-        // stage("deploy_docker"){
-        //     steps{
-        //         sh "docker run -d --name website -p 8085:80 rameshkumarverma/website:latest"
-        //     }
-        // }
-        stage('Deploy to kubernets'){
+        stage("deploy_docker"){
             steps{
-                script{
-                    // dir('K8S') {
-                        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                                sh 'kubectl apply -f deployment-service.yml'
-                                // sh 'kubectl apply -f service.yml'
-                        }
-                    // }
-                }
+                sh "docker run -d --name website -p 8085:80 rameshkumarverma/website:latest"
             }
         }
+        // stage('Deploy to kubernets'){
+        //     steps{
+        //         script{
+        //             // dir('K8S') {
+        //                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+        //                         sh 'kubectl apply -f deployment-service.yml'
+        //                         // sh 'kubectl apply -f service.yml'
+        //                 }
+        //             // }
+        //         }
+        //     }
+        // }
     }
 }
